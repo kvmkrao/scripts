@@ -1,0 +1,6 @@
+<ParameterList name="MueLu">
+<Parameter name="verbosity" type="string" value="none"/>
+<Parameter name="max levels" type="int" value="6"/>
+<Parameter name="multigrid algorithm" type="string" value="sa"/>
+<Parameter name="aggregation: type" type="string" value="uncoupled"/>
+</ParameterList>
