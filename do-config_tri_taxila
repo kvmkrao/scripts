@@ -1,0 +1,109 @@
+
+# Modify these paths for your system.
+HOME=$1
+TRILINSTALLDIR=$HOME/Software/Trilinos/
+BOOSTDIR=$HOME/Software/boost/install
+NETCDFDIR=$HOME/Software/netcdf/install/
+HDF5DIR=$HOME/Software/hdf5/install/
+LAPDIR=$HOME/Software/lapack/install/lib64
+MPIDIR=$HOME/Software/mpi/install
+# Remove the CMake cache. For an extra clean start in an already-used build
+# directory, rm -rf CMake* to get rid of all CMake-generated files.
+rm -f CMake*;
+
+cmake \
+ -D Trilinos_DISABLE_ENABLED_FORWARD_DEP_PACKAGES=ON \
+ -D CMAKE_INSTALL_PREFIX:PATH=${TRILINSTALLDIR}/install \
+ -D CMAKE_BUILD_TYPE:STRING=RELEASE \
+ -D BUILD_SHARED_LIBS:BOOL=OFF \
+ -D TPL_ENABLE_MPI:BOOL=ON \
+ -D Trilinos_ENABLE_Fortran:BOOL=ON \
+ -D MPI_BASE_DIR=$MPIDIR/bin \
+ -D CMAKE_C_COMPILER="$MPIDIR/bin/mpicc" \
+ -D CMAKE_CXX_COMPILER="$MPIDIR/bin/mpicxx" \
+ -D CMAKE_Fortran_COMPILER="$MPIDIR/bin/mpif90" \
+ -D CMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
+ -D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF \
+ -D Trilinos_WARNINGS_AS_ERRORS_FLAGS:STRING="" \
+ -D Teuchos_ENABLE_LONG_LONG_INT:BOOL=ON \
+\
+ -D Trilinos_ENABLE_Teuchos:BOOL=ON \
+ -D Trilinos_ENABLE_Epetra:BOOL=ON \
+ -D Trilinos_ENABLE_EpetraExt:BOOL=ON \
+ -D Trilinos_ENABLE_Ifpack:BOOL=ON \
+ -D Trilinos_ENABLE_AztecOO:BOOL=ON \
+ -D Trilinos_ENABLE_Amesos:BOOL=ON \
+ -D Trilinos_ENABLE_Belos:BOOL=ON \
+ -D Trilinos_ENABLE_ML:BOOL=ON \
+ -D Trilinos_ENABLE_TriKota:BOOL=ON \
+ -D Trilinos_ENABLE_Piro:BOOL=ON \
+\
+ -D Trilinos_ENABLE_Shards:BOOL=ON \
+ -D Trilinos_ENABLE_Sacado:BOOL=ON \
+ -D Trilinos_ENABLE_Anasazi:BOOL=ON \
+ -D Trilinos_ENABLE_ML:BOOL=ON \
+ -D Trilinos_ENABLE_Phalanx:BOOL=ON \
+ -D Trilinos_ENABLE_Intrepid:BOOL=ON \
+ -D Trilinos_ENABLE_Intrepid2:BOOL=ON \
+ -D Trilinos_ENABLE_NOX:BOOL=ON \
+ -D Trilinos_ENABLE_Stratimikos:BOOL=ON \
+ -D Trilinos_ENABLE_Thyra:BOOL=ON \
+ -D Trilinos_ENABLE_Rythmos:BOOL=ON \
+ -D Trilinos_ENABLE_MOOCHO:BOOL=ON \
+ -D Trilinos_ENABLE_Stokhos:BOOL=ON \
+ -D Trilinos_ENABLE_Zoltan:BOOL=ON \
+ -D Trilinos_ENABLE_Teko:BOOL=ON \
+ -D Trilinos_ENABLE_STKIO:BOOL=ON \
+ -D Trilinos_ENABLE_STKMesh:BOOL=ON \
+\
+ -D TPL_ENABLE_Boost:BOOL=ON \
+ -D Boost_INCLUDE_DIRS:FILEPATH="$BOOSTDIR/include" \
+ -D Boost_LIBRARY_DIRS:FILEPATH="$BOOSTDIR/lib" \
+ -D TPL_ENABLE_BoostLib:BOOL=ON \
+ -D BoostLib_INCLUDE_DIRS:FILEPATH="$BOOSTDIR/include" \
+ -D BoostLib_LIBRARY_DIRS:FILEPATH="$BOOSTDIR/lib" \
+\
+ -D TPL_ENABLE_Netcdf:BOOL=ON \
+ -D Netcdf_INCLUDE_DIRS:PATH="$NETCDFDIR/include" \
+ -D Netcdf_LIBRARY_DIRS:PATH="$NETCDFDIR/lib" \
+\
+ -D Trilinos_ENABLE_Tpetra:BOOL=ON \
+ -D Trilinos_ENABLE_Kokkos:BOOL=ON \
+ -D Trilinos_ENABLE_Ifpack2:BOOL=ON \
+ -D Trilinos_ENABLE_Amesos2:BOOL=ON \
+ -D Trilinos_ENABLE_Zoltan2:BOOL=ON \
+ -D Trilinos_ENABLE_MueLu:BOOL=ON \
+ -D Amesos2_ENABLE_KLU2:BOOL=ON \
+  -D TPL_ENABLE_BLAS:BOOL=ON \
+  -D TPL_BLAS_LIBRARIES:FILEPATH="$LAPDIR/libblas.so.3" \
+  -D TPL_ENABLE_LAPACK:BOOL=ON \
+  -D TPL_LAPACK_LIBRARIES:FILEPATH="$LAPDIR/liblapack.so.3" \
+\
+ -D Trilinos_ENABLE_EXPLICIT_INSTANTIATION:BOOL=ON \
+ -D Tpetra_INST_INT_LONG_LONG:BOOL=ON \
+ -D Tpetra_INST_INT_INT:BOOL=ON \
+ -D Tpetra_INST_DOUBLE:BOOL=ON \
+ -D Tpetra_INST_FLOAT:BOOL=OFF \
+ -D Tpetra_INST_COMPLEX_FLOAT:BOOL=OFF \
+ -D Tpetra_INST_COMPLEX_DOUBLE:BOOL=OFF \
+ -D Tpetra_INST_INT_LONG:BOOL=OFF \
+ -D Tpetra_INST_INT_UNSIGNED:BOOL=OFF \
+\
+ -D Trilinos_ENABLE_Kokkos:BOOL=ON \
+ -D Trilinos_ENABLE_KokkosCore:BOOL=ON \
+ -D Phalanx_KOKKOS_DEVICE_TYPE:STRING="SERIAL" \
+ -D Phalanx_INDEX_SIZE_TYPE:STRING="INT" \
+ -D Phalanx_SHOW_DEPRECATED_WARNINGS:BOOL=OFF \
+ -D Kokkos_ENABLE_Serial:BOOL=ON \
+ -D Kokkos_ENABLE_OpenMP:BOOL=OFF \
+ -D Kokkos_ENABLE_Pthread:BOOL=OFF \
+  -D TPL_ENABLE_BLAS:BOOL=ON \
+  -D TPL_ENABLE_LAPACK:BOOL=ON \
+  -D CMAKE_C_FLAGS:STRING="-O3 -fPIC" \
+  -D CMAKE_CXX_FLAGS:STRING=" -std=c++11 -O3 -fPIC" \
+  -D CMAKE_Fortran_FLAGS:STRING=" -O3 -fPIC" \
+   -D Trilinos_ENABLE_Fortran:BOOL=ON \
+${TRILINSTALLDIR}/src
+
+make -j16 
+make install
